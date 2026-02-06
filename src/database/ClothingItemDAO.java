@@ -31,7 +31,6 @@ public class ClothingItemDAO {
         }
     }
 
-    // 🔥 ВАЖНО: сигнатура ПОД MenuManager
     public boolean updateItem(
             int id,
             String name,
@@ -185,6 +184,47 @@ public class ClothingItemDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException("Search by min price failed", e);
+        }
+    }
+
+    public void viewPantsOnly() {
+        viewByType("Pants");
+    }
+
+    public void viewShirtsOnly() {
+        viewByType("Shirt");
+    }
+
+    private void viewByType(String type) {
+        String sql = "SELECT * FROM clothing_item WHERE type = ? ORDER BY item_id";
+
+        try (
+                Connection connection = DatabaseConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ) {
+            ps.setString(1, type);
+            ResultSet rs = ps.executeQuery();
+
+            System.out.println("\n--- " + type.toUpperCase() + " ONLY ---");
+            boolean found = false;
+
+            while (rs.next()) {
+                found = true;
+                System.out.println(
+                        rs.getInt("item_id") + " | " +
+                                rs.getString("name") + " | " +
+                                rs.getString("size") + " | " +
+                                rs.getDouble("price") + " | " +
+                                rs.getString("brand")
+                );
+            }
+
+            if (!found) {
+                System.out.println("No " + type + " found");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("View by type failed", e);
         }
     }
 

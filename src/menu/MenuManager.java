@@ -25,6 +25,8 @@ public class MenuManager implements Menu {
                 case 5 -> searchByName();
                 case 6 -> searchByPrice();
                 case 7 -> searchByMinPrice();
+                case 8 -> dao.viewPantsOnly();
+                case 9 -> dao.viewShirtsOnly();
                 case 0 -> running = false;
                 default -> System.out.println("Invalid option");
             }
@@ -42,6 +44,8 @@ public class MenuManager implements Menu {
                 5. Search by name
                 6. Search by price range
                 7. Search by min price
+                8. View pants only
+                9. View shirts only
                 0. Exit
                 """);
         System.out.print("Enter choice: ");
